@@ -37,7 +37,6 @@
 		977194E228C7D86F0046201B = {
 			isa = PBXGroup;
 			children = (
-				9701D95528C7F7190096E7C8 /* Models.swift */,
 				977194ED28C7D86F0046201B /* enbold */,
 				977194EC28C7D86F0046201B /* Products */,
 			);
@@ -55,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				977194EE28C7D86F0046201B /* enboldApp.swift */,
+				9701D95528C7F7190096E7C8 /* Models.swift */,
 				977194F028C7D86F0046201B /* ContentView.swift */,
 				977194F228C7D8700046201B /* Assets.xcassets */,
 				977194F428C7D8700046201B /* Preview Content */,
