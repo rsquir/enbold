@@ -7,37 +7,36 @@
 
 import SwiftUI
 
+var modelData = ModelData()
+
 struct ContentView: View {
-    @AppStorage("test") var notes: [Note] = [Note(text: "First note"),
-                                            Note(text: "Second note"),
-                                            Note(text: "Third note")]
-    
-        // alright that's it for today, need to write to file appstorage is limited
+    @ObservedObject var modelData2 = ModelData()
     
     var body: some View {
         NavigationView {
-            List($notes) { $n in
-                NavigationLink(destination: NoteView(note: $n)) {
-                    Text(n.text)
+            List(0..<modelData2.noteStrings.count) { index in
+                NavigationLink(destination: NoteView(str: $modelData2.noteStrings[index])) {
+                    NoteRow(str: $modelData2.noteStrings[index])
                 }
             }
         }
-        //.padding()
+    }
+}
+
+struct NoteView: View {
+    @Binding var str: String
+    
+    var body: some View {
+        TextViewEnbold(str: $str)
     }
 }
 
 
-// Note struct
-struct Note: Hashable, Codable, Identifiable {
-    var id = UUID()
-    var text: String
-}
-
-struct NoteView: View {
-    @State var note: Note
+struct NoteRow: View {
+    @Binding var str: String
     
     var body: some View {
-        TextViewEnbold(str: $note.text)
+        Text(str)
     }
 }
 
@@ -46,6 +45,17 @@ struct NoteView: View {
 struct TextViewEnbold: UIViewRepresentable {
     @Binding var str: String
     
+    /*
+    var str: String {
+        get {
+            return modelData.noteStrings[index]
+        }
+        set {
+            modelData.noteStrings[index] = newValue
+            modelData.saveNoteStrings()
+        }
+    }
+    */
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }

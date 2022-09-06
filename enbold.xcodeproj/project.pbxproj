@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9701D95628C7F7190096E7C8 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9701D95528C7F7190096E7C8 /* Models.swift */; };
 		977194EF28C7D86F0046201B /* enboldApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977194EE28C7D86F0046201B /* enboldApp.swift */; };
 		977194F128C7D86F0046201B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977194F028C7D86F0046201B /* ContentView.swift */; };
 		977194F328C7D8700046201B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 977194F228C7D8700046201B /* Assets.xcassets */; };
@@ -14,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9701D95528C7F7190096E7C8 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		977194EB28C7D86F0046201B /* enbold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = enbold.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		977194EE28C7D86F0046201B /* enboldApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enboldApp.swift; sourceTree = "<group>"; };
 		977194F028C7D86F0046201B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -35,6 +37,7 @@
 		977194E228C7D86F0046201B = {
 			isa = PBXGroup;
 			children = (
+				9701D95528C7F7190096E7C8 /* Models.swift */,
 				977194ED28C7D86F0046201B /* enbold */,
 				977194EC28C7D86F0046201B /* Products */,
 			);
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9701D95628C7F7190096E7C8 /* Models.swift in Sources */,
 				977194F128C7D86F0046201B /* ContentView.swift in Sources */,
 				977194EF28C7D86F0046201B /* enboldApp.swift in Sources */,
 			);
