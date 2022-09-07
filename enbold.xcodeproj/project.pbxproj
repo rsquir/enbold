@@ -12,8 +12,7 @@
 		977194F128C7D86F0046201B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977194F028C7D86F0046201B /* ContentView.swift */; };
 		977194F328C7D8700046201B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 977194F228C7D8700046201B /* Assets.xcassets */; };
 		977194F628C7D8700046201B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 977194F528C7D8700046201B /* Preview Assets.xcassets */; };
-		97A415E728C937DC002E6F76 /* enbold-logo-01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 97A415E528C937DC002E6F76 /* enbold-logo-01.jpg */; };
-		97A415E828C937DC002E6F76 /* enbold-logo-01.psd in Resources */ = {isa = PBXBuildFile; fileRef = 97A415E628C937DC002E6F76 /* enbold-logo-01.psd */; };
+		97A415EA28C93869002E6F76 /* RobotoFlex-VariableFont_GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97A415E928C93869002E6F76 /* RobotoFlex-VariableFont_GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,8 +22,8 @@
 		977194F028C7D86F0046201B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		977194F228C7D8700046201B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		977194F528C7D8700046201B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		97A415E528C937DC002E6F76 /* enbold-logo-01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "enbold-logo-01.jpg"; path = "logos/enbold-logo-01.jpg"; sourceTree = SOURCE_ROOT; };
-		97A415E628C937DC002E6F76 /* enbold-logo-01.psd */ = {isa = PBXFileReference; lastKnownFileType = file; name = "enbold-logo-01.psd"; path = "logos/enbold-logo-01.psd"; sourceTree = SOURCE_ROOT; };
+		97A415E928C93869002E6F76 /* RobotoFlex-VariableFont_GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoFlex-VariableFont_GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.ttf"; sourceTree = "<group>"; };
+		97A415EB28C9387A002E6F76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +56,8 @@
 		977194ED28C7D86F0046201B /* enbold */ = {
 			isa = PBXGroup;
 			children = (
-				97A415E428C937C0002E6F76 /* logos */,
+				97A415EB28C9387A002E6F76 /* Info.plist */,
+				97A415E928C93869002E6F76 /* RobotoFlex-VariableFont_GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.ttf */,
 				977194EE28C7D86F0046201B /* enboldApp.swift */,
 				9701D95528C7F7190096E7C8 /* Models.swift */,
 				977194F028C7D86F0046201B /* ContentView.swift */,
@@ -73,15 +73,6 @@
 				977194F528C7D8700046201B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		97A415E428C937C0002E6F76 /* logos */ = {
-			isa = PBXGroup;
-			children = (
-				97A415E528C937DC002E6F76 /* enbold-logo-01.jpg */,
-				97A415E628C937DC002E6F76 /* enbold-logo-01.psd */,
-			);
-			path = logos;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,9 +134,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				977194F628C7D8700046201B /* Preview Assets.xcassets in Resources */,
-				97A415E728C937DC002E6F76 /* enbold-logo-01.jpg in Resources */,
 				977194F328C7D8700046201B /* Assets.xcassets in Resources */,
-				97A415E828C937DC002E6F76 /* enbold-logo-01.psd in Resources */,
+				97A415EA28C93869002E6F76 /* RobotoFlex-VariableFont_GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +280,7 @@
 				DEVELOPMENT_TEAM = 3UUR3M2Q67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = enbold/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -319,6 +310,7 @@
 				DEVELOPMENT_TEAM = 3UUR3M2Q67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = enbold/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

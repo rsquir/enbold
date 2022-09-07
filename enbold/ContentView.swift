@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-var modelData = ModelData()
+// made global, don't know how to send this to UITextView Coordinator
+var attrStringMaker = AttributedStringMaker()
 
 struct ContentView: View {
     @ObservedObject var modelData = ModelData()
@@ -37,6 +38,9 @@ struct NoteRow: View {
     
     var body: some View {
         Text(str)
+        
+        // can't seem to use an attributed string with Text class, will come back to this
+        //Text(attrStringMaker.strToAttrStringNavView(str: str).attributedSubstring(from: NSMakeRange(0, str.count)))
     }
 }
 
@@ -45,17 +49,6 @@ struct NoteRow: View {
 struct TextViewEnbold: UIViewRepresentable {
     @Binding var str: String
     
-    /*
-    var str: String {
-        get {
-            return modelData.noteStrings[index]
-        }
-        set {
-            modelData.noteStrings[index] = newValue
-            modelData.saveNoteStrings()
-        }
-    }
-    */
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
@@ -70,11 +63,8 @@ struct TextViewEnbold: UIViewRepresentable {
         
         //textViewEnbold.backgroundColor = UIColor(red: 23/255, green: 23/255, blue: 23/255, alpha: 1.0)
         
-        //let attrString = colouredStrMaker.strToAttrStrv3(str: str)
-        //textViewEnbold.attributedText = attrString
-        
-        // this declaration bc attrstr not implimented yet
-        textViewEnbold.text = str
+        let attrString = attrStringMaker.strToAttrStrTextView(str: str)
+        textViewEnbold.attributedText = attrString
         
         return textViewEnbold
     }
@@ -99,7 +89,7 @@ struct TextViewEnbold: UIViewRepresentable {
             
             let cursor = textView.selectedTextRange
             
-           // textView.attributedText = colouredStrMaker.strToAttrStrv3(str: textView.text)
+            textView.attributedText = attrStringMaker.strToAttrStrTextView(str: textView.text)
             
             textView.selectedTextRange = cursor
         }
