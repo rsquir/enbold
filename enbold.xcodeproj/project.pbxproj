@@ -12,6 +12,8 @@
 		977194F128C7D86F0046201B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977194F028C7D86F0046201B /* ContentView.swift */; };
 		977194F328C7D8700046201B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 977194F228C7D8700046201B /* Assets.xcassets */; };
 		977194F628C7D8700046201B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 977194F528C7D8700046201B /* Preview Assets.xcassets */; };
+		97A415E728C937DC002E6F76 /* enbold-logo-01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 97A415E528C937DC002E6F76 /* enbold-logo-01.jpg */; };
+		97A415E828C937DC002E6F76 /* enbold-logo-01.psd in Resources */ = {isa = PBXBuildFile; fileRef = 97A415E628C937DC002E6F76 /* enbold-logo-01.psd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,8 @@
 		977194F028C7D86F0046201B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		977194F228C7D8700046201B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		977194F528C7D8700046201B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		97A415E528C937DC002E6F76 /* enbold-logo-01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "enbold-logo-01.jpg"; path = "logos/enbold-logo-01.jpg"; sourceTree = SOURCE_ROOT; };
+		97A415E628C937DC002E6F76 /* enbold-logo-01.psd */ = {isa = PBXFileReference; lastKnownFileType = file; name = "enbold-logo-01.psd"; path = "logos/enbold-logo-01.psd"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +57,7 @@
 		977194ED28C7D86F0046201B /* enbold */ = {
 			isa = PBXGroup;
 			children = (
+				97A415E428C937C0002E6F76 /* logos */,
 				977194EE28C7D86F0046201B /* enboldApp.swift */,
 				9701D95528C7F7190096E7C8 /* Models.swift */,
 				977194F028C7D86F0046201B /* ContentView.swift */,
@@ -68,6 +73,15 @@
 				977194F528C7D8700046201B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		97A415E428C937C0002E6F76 /* logos */ = {
+			isa = PBXGroup;
+			children = (
+				97A415E528C937DC002E6F76 /* enbold-logo-01.jpg */,
+				97A415E628C937DC002E6F76 /* enbold-logo-01.psd */,
+			);
+			path = logos;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,7 +143,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				977194F628C7D8700046201B /* Preview Assets.xcassets in Resources */,
+				97A415E728C937DC002E6F76 /* enbold-logo-01.jpg in Resources */,
 				977194F328C7D8700046201B /* Assets.xcassets in Resources */,
+				97A415E828C937DC002E6F76 /* enbold-logo-01.psd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

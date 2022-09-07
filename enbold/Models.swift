@@ -9,7 +9,7 @@ import Foundation
 
 
 class ModelData: ObservableObject {
-    @Published var noteStrings: [String] = UserDefaults.standard.array(forKey: "notes") as? [String] ?? ["First", "Second", "Third"] {
+    @Published var noteStrings: [String] = UserDefaults.standard.array(forKey: "notes") as? [String] ?? ["First note", "Second note", "Third note"] {
         didSet {
             UserDefaults.standard.set(noteStrings, forKey: "notes")
         }
@@ -18,4 +18,9 @@ class ModelData: ObservableObject {
     func saveNoteStrings() {
         UserDefaults.standard.set(noteStrings, forKey: "notes")
     }
+}
+
+
+class attributedStringMaker {
+    
 }

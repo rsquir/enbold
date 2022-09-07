@@ -10,13 +10,13 @@ import SwiftUI
 var modelData = ModelData()
 
 struct ContentView: View {
-    @ObservedObject var modelData2 = ModelData()
+    @ObservedObject var modelData = ModelData()
     
     var body: some View {
         NavigationView {
-            List(0..<modelData2.noteStrings.count) { index in
-                NavigationLink(destination: NoteView(str: $modelData2.noteStrings[index])) {
-                    NoteRow(str: $modelData2.noteStrings[index])
+            List(0..<modelData.noteStrings.count) { index in
+                NavigationLink(destination: NoteView(str: $modelData.noteStrings[index])) {
+                    NoteRow(str: $modelData.noteStrings[index])
                 }
             }
         }
