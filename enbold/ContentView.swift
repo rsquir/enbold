@@ -14,14 +14,22 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List(0..<modelData.noteStrings.count) { index in
-                NavigationLink(destination: NoteView(str: $modelData.noteStrings[index], attrStringMaker: attrStringMaker)) {
-                    NoteRow(str: $modelData.noteStrings[index], attrStringMaker: attrStringMaker)
+            List {
+                ForEach(0..<$modelData.notes.count, id: \.self) { index in
+                    NavigationLink(destination: NoteView(str: $modelData.notes[index], attrStringMaker: attrStringMaker)) {
+                        NoteRow(str: $modelData.notes[index], attrStringMaker: attrStringMaker)
+                    }
                 }
             }
+            .navigationBarItems(trailing: Button(action: {
+                modelData.addNote()
+            }) {
+                Image(systemName: "plus")
+            })
         }
     }
 }
+
 
 struct NoteView: View {
     @Binding var str: String

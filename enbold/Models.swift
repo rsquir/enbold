@@ -11,15 +11,41 @@ import SwiftUI
 
 
 class ModelData: ObservableObject {
-    @Published var noteStrings: [String] = UserDefaults.standard.array(forKey: "notes") as? [String] ?? ["First note", "Second note", "Third note"] {
+    @Published var notes: [String] = UserDefaults.standard.array(forKey: "notes") as? [String] ?? ["First note", "Second note", "Third note"] {
         didSet {
-            UserDefaults.standard.set(noteStrings, forKey: "notes")
+            UserDefaults.standard.set(notes, forKey: "notes")
         }
     }
     
+    let notesBeginnings = ["First note",
+                           "Second note",
+                           "Third note",
+                           "Fourth note",
+                           "Fifth note",
+                           "Sixth note",
+                           "Seventh note",
+                           "Eighth note",
+                           "Nineth note",
+                           "Tenth note",
+                           "Another note"]
+    
     func saveNoteStrings() {
-        UserDefaults.standard.set(noteStrings, forKey: "notes")
+        UserDefaults.standard.set(notes, forKey: "notes")
     }
+    
+    func addNote() {
+        if (notes.count > notesBeginnings.count - 1) {
+            notes.append(notesBeginnings[10])
+        } else {
+            notes.append(notesBeginnings[notes.count])
+        }
+    }
+}
+
+
+struct Note: Codable, Equatable, Identifiable {
+    var id = UUID()
+    var text: String
 }
 
 
@@ -76,33 +102,16 @@ class AttributedStringMaker {
     }
     
     
-    // https://stackoverflow.com/questions/27880650/swift-extract-regex-matches
-    func matches(for regex: String, in text: String) -> [String] {
-        do {
-            let regex = try NSRegularExpression(pattern: regex)
-            let results = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
-            return results.map {
-                String(text[Range($0.range, in: text)!])
-            }
-        } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
-            return []
-        }
+    // didn't use this function, keeping it just in case
+    // seems like apple won't allow a different font for navtitle
+    func getNavTitle() -> AttributedString {
+        let str = "enbold"
+        let attrStr = NSMutableAttributedString(string: str)
+        
+        attrStr.addAttributes([.font: UIFont(name: fontLight, size: 20.0)], range: NSMakeRange(0, 2))
+        attrStr.addAttributes([.font: UIFont(name: fontBold, size: 10.0)], range: NSMakeRange(2, 4))
+        
+        return AttributedString(attrStr)
     }
 }
 
-
-extension String {
-    func matchingStrings(regex: String) -> [[String]] {
-        guard let regex = try? NSRegularExpression(pattern: regex, options: []) else { return [] }
-        let nsString = self as NSString
-        let results  = regex.matches(in: self, options: [], range: NSMakeRange(0, nsString.length))
-        return results.map { result in
-            (0..<result.numberOfRanges).map {
-                result.range(at: $0).location != NSNotFound
-                    ? nsString.substring(with: result.range(at: $0))
-                    : ""
-            }
-        }
-    }
-}
