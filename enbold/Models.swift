@@ -23,12 +23,13 @@ class ModelData: ObservableObject {
 }
 
 
-// hardcoding to a light or dark colour (likely light) because i can't have an environmental
-// variable call with this global class--called too early
+// hardcoding to a light or dark colour (likely light), environment colorScheme !working
 class AttributedStringMaker {
+    let currentSystemScheme = UITraitCollection.current.userInterfaceStyle
+    
     let fontLight = "RobotoFlexNormalNormalNormalNormalNormalNormalNormalNormalNormalDefault-Light"
     let fontBold = "RobotoFlexNormalNormalNormalNormalNormalNormalNormalNormalNormalDefault-Bold"
-   
+    
     let fontSizeMain = 15.0
     let fontSizeTextView = 15.0
     
@@ -40,13 +41,19 @@ class AttributedStringMaker {
         
         attrStr.addAttributes([.font: UIFont(name: fontBold, size: fontSizeTextView)!], range: NSMakeRange(0, str.count))
         
-        attrStr.addAttributes([.foregroundColor: UIColor.white], range: NSMakeRange(0, str.count))
+        if (currentSystemScheme == .light) {
+            attrStr.addAttributes([.foregroundColor: UIColor.black], range: NSMakeRange(0, str.count))
+        } else if (currentSystemScheme == .dark) {
+            attrStr.addAttributes([.foregroundColor: UIColor.white], range: NSMakeRange(0, str.count))
+        }
         
         return attrStr
     }
     
-    //will need to trim new lines for main view, do this here? i think so
-    func strToAttrStringNavView(str: String) -> NSMutableAttributedString {
-        return strToAttrStrTextView(str: str)
+    
+    func strToAttrStringNavView(str: String) -> AttributedString {
+        // code a trim here
+        
+        return AttributedString(strToAttrStrTextView(str: str))
     }
 }
