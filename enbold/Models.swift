@@ -52,54 +52,54 @@ class AttributedStringMaker {
     let fontBold = "RobotoFlexNormalNormalNormalNormalNormalNormalNormalNormalNormalDefault-Bold"
     
     let fontSizeMain = 15.0
-    let fontSizeTextView = 15.0
+    let fontSizeTextView = 20.0
     
-    let regexLeftBoundary = "(^|\\s|\\.|\\!|\\?)*(?i)\\b"
-    let regexRightBoundary = "\\b(\\s|\\.|\\!|\\?|$)*"
+    let regexLeftBoundary =   "(^|\\s|\\.\\,|\\!|\\?)*(?i)\\b"
+    let regexRightBoundary = "\\b(\\s|\\.\\,|\\!|\\?|$)*"
     
     // made this list based off https://en.wikipedia.org/wiki/Most_common_words_in_English
     // maybe not comments are ranked from 1 to n; 1 being most important
     let unboldList = ["a",
-                      "about",      // maybe not (2)
+                      "about",          // maybe not (2)
                       "after",
                       "also",
                       "an",
-                      "and",        // maybe not (1)
+                      "and",            // maybe not (1)
                       "any",
                       "as",
                       "at",
-                      "back",
+                      "back", "backs",
                       "be",
-                      "because",    // maybe not (2)
+                      "because",        // maybe not (2)
                       "but",
                       "by",
                       "can",
-                      "come",       // maybe not (2)
-                      "could",
+                      "come", "comes",  // maybe not (2)
+                      "could", "coulds", "could’ve",
                       "for",
                       "from",
-                      "get",
+                      "get", "gets",
                       "go",
-                      "have",
-                      "he",
-                      "how",
-                      "if",         // maybe not (1)
+                      "have", "haves",
+                      "he", "he’s",
+                      "how", "how’s",
+                      "if",             // maybe not (1)
                       "in",
                       "into",
-                      "it",
-                      "it’s",       // test this
-                      "its",
+                      "is",
+                      "it", "it’s", "its",
                       "just",
-                      "know",
-                      "like",
-                      "make",
+                      "know", "knows", "known",
+                      "like", "likes",
+                      "make", "makes",
                       "most",
+                      "must", "must’ve",
                       "of",
                       "on",
-                      "or",         // maybe not (1)
+                      "or",             // maybe not (1)
                       "so",
                       "some",
-                      "take",
+                      "take", "taken",
                       "than",
                       "then",
                       "that",
@@ -109,12 +109,12 @@ class AttributedStringMaker {
                       "these",
                       "this",
                       "to",
-                      "want",
+                      "want", "wants",
                       "well",
-                      "what",
-                      "when",
+                      "what", "what’s",
+                      "when", "when’ll",
                       "which",
-                      "will",       // maybe not (1)
+                      "will",           // maybe not (1)
                       "with",
                       "would",
                       "use"]
@@ -154,7 +154,7 @@ class AttributedStringMaker {
         
         // trim to 88th char
         if (str.count > 88) {
-            newStr = String(str.prefix(88))
+            newStr = String(str.prefix(88)) + "..."
         }
         
         // get array of regex \n, then on index 0 truncate str
