@@ -43,12 +43,6 @@ class ModelData: ObservableObject {
 }
 
 
-struct Note: Codable, Equatable, Identifiable {
-    var id = UUID()
-    var text: String
-}
-
-
 // hardcoding to a light or dark colour (likely light), environment colorScheme !working
 class AttributedStringMaker {
     // making light vs dark textcolour adjustments
@@ -62,13 +56,74 @@ class AttributedStringMaker {
     
     let regexLeftBoundary = "(^|\\s|\\.|\\!|\\?)*(?i)\\b"
     let regexRightBoundary = "\\b(\\s|\\.|\\!|\\?|$)*"
-    let unboldList = ["but", "what"]
     
-    func strToAttrStrTextView(str: String) -> NSMutableAttributedString {
+    // made this list based off https://en.wikipedia.org/wiki/Most_common_words_in_English
+    // maybe not comments are ranked from 1 to n; 1 being most important
+    let unboldList = ["a",
+                      "about",      // maybe not (2)
+                      "after",
+                      "also",
+                      "an",
+                      "and",        // maybe not (1)
+                      "any",
+                      "as",
+                      "at",
+                      "back",
+                      "be",
+                      "because",    // maybe not (2)
+                      "but",
+                      "by",
+                      "can",
+                      "come",       // maybe not (2)
+                      "could",
+                      "for",
+                      "from",
+                      "get",
+                      "go",
+                      "have",
+                      "he",
+                      "how",
+                      "if",         // maybe not (1)
+                      "in",
+                      "into",
+                      "it",
+                      "it’s",       // test this
+                      "its",
+                      "just",
+                      "know",
+                      "like",
+                      "make",
+                      "most",
+                      "of",
+                      "on",
+                      "or",         // maybe not (1)
+                      "so",
+                      "some",
+                      "take",
+                      "than",
+                      "then",
+                      "that",
+                      "the",
+                      "their",
+                      "there",
+                      "these",
+                      "this",
+                      "to",
+                      "want",
+                      "well",
+                      "what",
+                      "when",
+                      "which",
+                      "will",       // maybe not (1)
+                      "with",
+                      "would",
+                      "use"]
+    
+    func strToAttrStrTextView(str: String, size: Double) -> NSMutableAttributedString {
         let attrStr = NSMutableAttributedString(string: str)
         
         // set default values for string to make adustments on top of
-        attrStr.addAttributes([.font: UIFont(name: fontBold, size: fontSizeTextView)!], range: NSMakeRange(0, str.count))   // default bold font
+        attrStr.addAttributes([.font: UIFont(name: fontBold, size: size)!], range: NSMakeRange(0, str.count))   // default bold font
         
         if (currentSystemScheme == .light) {    // white or black based on dark or light mode for device
             attrStr.addAttributes([.foregroundColor: UIColor.black], range: NSMakeRange(0, str.count))
@@ -82,7 +137,7 @@ class AttributedStringMaker {
             do {
                 let regex = try NSRegularExpression(pattern: regexLeftBoundary + ub + regexRightBoundary)
                 for s in regex.matches(in: str, range: NSMakeRange(0, str.count)) {
-                    attrStr.addAttributes([.font: UIFont(name: fontLight, size: fontSizeTextView)], range: s.range)
+                    attrStr.addAttributes([.font: UIFont(name: fontLight, size: size)], range: s.range)
                 }
             } catch let error {
                 print("invalid regex: \(error.localizedDescription)")
@@ -94,11 +149,26 @@ class AttributedStringMaker {
     
     
     func strToAttrStringNavView(str: String) -> AttributedString {
-        // code a trim here
+        // trim to 3 lines and 88 chars
+        var newStr: String = str
         
+        // trim to 88th char
+        if (str.count > 88) {
+            newStr = String(str.prefix(88))
+        }
         
+        // get array of regex \n, then on index 0 truncate str
+        do {
+            let regex = try NSRegularExpression(pattern: "\\n")
+            let matches = regex.matches(in: str, range: NSMakeRange(0, str.count))
+            if (matches.count > 2) {
+                newStr = String(newStr.prefix(matches[2].range.location))
+            }
+        } catch let error {
+            print("invalid regex: \(error.localizedDescription)")
+        }
         
-        return AttributedString(strToAttrStrTextView(str: str))
+        return AttributedString(strToAttrStrTextView(str: newStr, size: fontSizeMain))
     }
     
     
