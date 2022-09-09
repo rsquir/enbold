@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import SwiftUI
-
+import NaturalLanguage
 
 class ModelData: ObservableObject {
     @Published var notes: [String] = UserDefaults.standard.array(forKey: "notes") as? [String] ?? ["First note", "Second note", "Third note"] {
@@ -54,8 +54,10 @@ class AttributedStringMaker {
     let fontSizeMain = 15.0
     let fontSizeTextView = 20.0
     
-    let regexLeftBoundary =   "(^|\\s|\\.\\,|\\!|\\?)*(?i)\\b"
-    let regexRightBoundary = "\\b(\\s|\\.\\,|\\!|\\?|$)*"
+    // regex is leading and trailing whitespace, period, comma, !, ?, beginning and end of line
+    // and the word from dict in the middle
+    let regexLeftBoundary =   "(^|\\s|\\.|\\,|\\!|\\?)*(?i)\\b"
+    let regexRightBoundary = "\\b(\\s|\\.|\\,|\\!|\\?|$)*"
     
     // made this list based off https://en.wikipedia.org/wiki/Most_common_words_in_English
     // maybe not comments are ranked from 1 to n; 1 being most important
@@ -119,6 +121,43 @@ class AttributedStringMaker {
                       "would",
                       "use"]
     
+    /* working with NLP start */
+    var tagger: NLTagger = NLTagger(tagSchemes: [.lexicalClass])
+    
+    func strToAttrStrNLP(str: String, size: Double) -> NSMutableAttributedString {
+        let attrStr = NSMutableAttributedString(string: str)
+        
+        // set default values for string to make adustments on top of
+        attrStr.addAttributes([.font: UIFont(name: fontBold, size: size)!], range: NSMakeRange(0, str.count))   // default bold font
+        
+        if (currentSystemScheme == .light) {    // white or black based on dark or light mode for device
+            attrStr.addAttributes([.foregroundColor: UIColor.black], range: NSMakeRange(0, str.count))
+        } else if (currentSystemScheme == .dark) {
+            attrStr.addAttributes([.foregroundColor: UIColor.white], range: NSMakeRange(0, str.count))
+        }
+        
+        tagger.string = str.replacingOccurrences(of: "’", with: "'")
+        let options: NLTagger.Options = [.omitPunctuation, .omitWhitespace]
+        tagger.enumerateTags(in: str.startIndex..<str.endIndex, unit: .word, scheme: .lexicalClass, options: options) { tag, tokenRange in
+            
+            if let tag = tag {
+                if (tag.rawValue == "Interjection" ||
+                    tag.rawValue == "Conjunction" ||
+                    tag.rawValue == "Determiner" ||
+                    tag.rawValue == "Preposition") {
+                    attrStr.addAttributes([.font: UIFont(name: fontLight, size: size)], range: NSRange(tokenRange, in: str))
+                }
+            }
+            return true
+        }
+        
+        
+        return attrStr
+    }
+    
+    /* working with NLP end */
+    
+    
     func strToAttrStrTextView(str: String, size: Double) -> NSMutableAttributedString {
         let attrStr = NSMutableAttributedString(string: str)
         
@@ -153,9 +192,10 @@ class AttributedStringMaker {
         var newStr: String = str
         
         // trim to 88th char
-        if (str.count > 88) {
-            newStr = String(str.prefix(88)) + "..."
+        if (str.count > 120) {
+            newStr = String(str.prefix(120)) + "..."
         }
+        
         
         // get array of regex \n, then on index 0 truncate str
         do {
@@ -167,8 +207,9 @@ class AttributedStringMaker {
         } catch let error {
             print("invalid regex: \(error.localizedDescription)")
         }
-        
-        return AttributedString(strToAttrStrTextView(str: newStr, size: fontSizeMain))
+         
+        //return AttributedString(strToAttrStrTextView(str: newStr, size: fontSizeMain))
+        return AttributedString(strToAttrStrNLP(str: newStr, size: fontSizeMain))
     }
     
     

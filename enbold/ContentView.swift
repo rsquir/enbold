@@ -70,7 +70,7 @@ struct TextViewEnbold: UIViewRepresentable {
         
         //textViewEnbold.backgroundColor = UIColor(red: 23/255, green: 23/255, blue: 23/255, alpha: 1.0)
         
-        let attrString = attrStringMaker.strToAttrStrTextView(str: str, size: attrStringMaker.fontSizeTextView)
+        let attrString = attrStringMaker.strToAttrStrNLP(str: str, size: attrStringMaker.fontSizeTextView)
         textViewEnbold.attributedText = attrString
         
         return textViewEnbold
@@ -96,7 +96,8 @@ struct TextViewEnbold: UIViewRepresentable {
             
             let cursor = textView.selectedTextRange
             
-            textView.attributedText = parent.attrStringMaker.strToAttrStrTextView(str: textView.text, size: parent.attrStringMaker.fontSizeTextView)
+            //textView.attributedText = parent.attrStringMaker.strToAttrStrTextView(str: textView.text, size: parent.attrStringMaker.fontSizeTextView)
+            textView.attributedText = parent.attrStringMaker.strToAttrStrNLP(str: textView.text, size: parent.attrStringMaker.fontSizeTextView)
 
             textView.selectedTextRange = cursor
         }
