@@ -16,6 +16,14 @@ class ModelData: ObservableObject {
             UserDefaults.standard.set(notes, forKey: "notes")
         }
     }
+    @Published var nlpOptions: [String: Bool] = UserDefaults.standard.array(forKey: "nlpoptions") as? [String: Bool] ?? ["Interjection": true,
+                           "Conjunction": true,
+                           "Determiner": true,
+                           "Preposition": true] {
+        didSet {
+            UserDefaults.standard.set(nlpOptions, forKey: "nlpoptions")
+        }
+    }
     
     let notesBeginnings = ["First note",
                            "Second note",
@@ -43,8 +51,10 @@ class ModelData: ObservableObject {
 }
 
 
-// hardcoding to a light or dark colour (likely light), environment colorScheme !working
+
 class AttributedStringMaker {
+    @State var nlpOptions: [String: Bool] = ["": false]
+    
     // making light vs dark textcolour adjustments
     let currentSystemScheme = UITraitCollection.current.userInterfaceStyle  // i could put this here or in the strtoattrstr but the navview needs to be told to refresh on change so idk
     
@@ -59,9 +69,7 @@ class AttributedStringMaker {
     let regexLeftBoundary =   "(^|\\s|\\.|\\,|\\!|\\?)*(?i)\\b"
     let regexRightBoundary = "\\b(\\s|\\.|\\,|\\!|\\?|$)*"
     
-    
-    /* working with NLP start */
-    var tagger: NLTagger = NLTagger(tagSchemes: [.lexicalClass])
+    var tagger: NLTagger = NLTagger(tagSchemes: [.lexicalClass])    // this is used for nlp
     
     func strToAttrStrNLP(str: String, size: Double) -> NSMutableAttributedString {
         let attrStr = NSMutableAttributedString(string: str)

@@ -10,7 +10,10 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var modelData = ModelData()
-    @State var attrStringMaker = AttributedStringMaker()
+    @State var attrStringMaker = AttributedStringMaker()    // wrote the nlpOptions to onappear to allow init
+    
+    // i guess ill use a popover view for the nlpOptions? hmm
+    @State var showingNLPOptions = false
     
     var body: some View {
         NavigationView {
@@ -21,11 +24,21 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationBarItems(trailing: Button(action: {
+            .navigationBarItems(leading: Button(action: {
+                showingNLPOptions.toggle()
+            }) {
+                Image(systemName: "text.justify")
+            }, trailing: Button(action: {
                 modelData.addNote()
             }) {
                 Image(systemName: "plus")
             })
+        }
+        .onAppear(perform: {
+            attrStringMaker.nlpOptions = modelData.nlpOptions   // write here to allow init
+        })
+        .sheet(isPresented: $showingNLPOptions) {
+            NLPOptionsView()
         }
     }
 }
@@ -124,5 +137,17 @@ extension Array: RawRepresentable where Element: Codable {
             return "[]"
         }
         return result
+    }
+}
+
+
+struct NLPOptionsView: View {
+    //@Binding nlpOtions: [String: Bool]
+    
+    var body: some View {
+        List {
+            Text("one")
+            Text("two")
+        }
     }
 }
