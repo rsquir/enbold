@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9701D95628C7F7190096E7C8 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9701D95528C7F7190096E7C8 /* Models.swift */; };
+		975511D928CE7A9E001DD8BB /* Notes.txt in Sources */ = {isa = PBXBuildFile; fileRef = 975511D828CE7A9E001DD8BB /* Notes.txt */; };
 		977194EF28C7D86F0046201B /* enboldApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977194EE28C7D86F0046201B /* enboldApp.swift */; };
 		977194F128C7D86F0046201B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977194F028C7D86F0046201B /* ContentView.swift */; };
 		977194F328C7D8700046201B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 977194F228C7D8700046201B /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		9701D95528C7F7190096E7C8 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		975511D828CE7A9E001DD8BB /* Notes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Notes.txt; sourceTree = "<group>"; };
 		977194EB28C7D86F0046201B /* enbold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = enbold.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		977194EE28C7D86F0046201B /* enboldApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enboldApp.swift; sourceTree = "<group>"; };
 		977194F028C7D86F0046201B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 		977194ED28C7D86F0046201B /* enbold */ = {
 			isa = PBXGroup;
 			children = (
+				975511D828CE7A9E001DD8BB /* Notes.txt */,
 				97A415EB28C9387A002E6F76 /* Info.plist */,
 				97A415E928C93869002E6F76 /* RobotoFlex-VariableFont_GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.ttf */,
 				977194EE28C7D86F0046201B /* enboldApp.swift */,
@@ -149,6 +152,7 @@
 				9701D95628C7F7190096E7C8 /* Models.swift in Sources */,
 				977194F128C7D86F0046201B /* ContentView.swift in Sources */,
 				977194EF28C7D86F0046201B /* enboldApp.swift in Sources */,
+				975511D928CE7A9E001DD8BB /* Notes.txt in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

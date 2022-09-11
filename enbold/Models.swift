@@ -59,67 +59,6 @@ class AttributedStringMaker {
     let regexLeftBoundary =   "(^|\\s|\\.|\\,|\\!|\\?)*(?i)\\b"
     let regexRightBoundary = "\\b(\\s|\\.|\\,|\\!|\\?|$)*"
     
-    // made this list based off https://en.wikipedia.org/wiki/Most_common_words_in_English
-    // maybe not comments are ranked from 1 to n; 1 being most important
-    let unboldList = ["a",
-                      "about",          // maybe not (2)
-                      "after",
-                      "also",
-                      "an",
-                      "and",            // maybe not (1)
-                      "any",
-                      "as",
-                      "at",
-                      "back", "backs",
-                      "be",
-                      "because",        // maybe not (2)
-                      "but",
-                      "by",
-                      "can",
-                      "come", "comes",  // maybe not (2)
-                      "could", "coulds", "could’ve",
-                      "for",
-                      "from",
-                      "get", "gets",
-                      "go",
-                      "have", "haves",
-                      "he", "he’s",
-                      "how", "how’s",
-                      "if",             // maybe not (1)
-                      "in",
-                      "into",
-                      "is",
-                      "it", "it’s", "its",
-                      "just",
-                      "know", "knows", "known",
-                      "like", "likes",
-                      "make", "makes",
-                      "most",
-                      "must", "must’ve",
-                      "of",
-                      "on",
-                      "or",             // maybe not (1)
-                      "so",
-                      "some",
-                      "take", "taken",
-                      "than",
-                      "then",
-                      "that",
-                      "the",
-                      "their",
-                      "there",
-                      "these",
-                      "this",
-                      "to",
-                      "want", "wants",
-                      "well",
-                      "what", "what’s",
-                      "when", "when’ll",
-                      "which",
-                      "will",           // maybe not (1)
-                      "with",
-                      "would",
-                      "use"]
     
     /* working with NLP start */
     var tagger: NLTagger = NLTagger(tagSchemes: [.lexicalClass])
@@ -137,9 +76,7 @@ class AttributedStringMaker {
         }
         
         tagger.string = str.replacingOccurrences(of: "’", with: "'")
-        let options: NLTagger.Options = [.omitPunctuation, .omitWhitespace]
-        tagger.enumerateTags(in: str.startIndex..<str.endIndex, unit: .word, scheme: .lexicalClass, options: options) { tag, tokenRange in
-            
+        tagger.enumerateTags(in: str.startIndex..<str.endIndex, unit: .word, scheme: .lexicalClass) { tag, tokenRange in
             if let tag = tag {
                 if (tag.rawValue == "Interjection" ||
                     tag.rawValue == "Conjunction" ||
@@ -155,44 +92,12 @@ class AttributedStringMaker {
         return attrStr
     }
     
-    /* working with NLP end */
-    
-    
-    func strToAttrStrTextView(str: String, size: Double) -> NSMutableAttributedString {
-        let attrStr = NSMutableAttributedString(string: str)
-        
-        // set default values for string to make adustments on top of
-        attrStr.addAttributes([.font: UIFont(name: fontBold, size: size)!], range: NSMakeRange(0, str.count))   // default bold font
-        
-        if (currentSystemScheme == .light) {    // white or black based on dark or light mode for device
-            attrStr.addAttributes([.foregroundColor: UIColor.black], range: NSMakeRange(0, str.count))
-        } else if (currentSystemScheme == .dark) {
-            attrStr.addAttributes([.foregroundColor: UIColor.white], range: NSMakeRange(0, str.count))
-        }
-        
-        
-        // range of word with regex
-        for ub in unboldList {
-            do {
-                let regex = try NSRegularExpression(pattern: regexLeftBoundary + ub + regexRightBoundary)
-                for s in regex.matches(in: str, range: NSMakeRange(0, str.count)) {
-                    attrStr.addAttributes([.font: UIFont(name: fontLight, size: size)], range: s.range)
-                }
-            } catch let error {
-                print("invalid regex: \(error.localizedDescription)")
-            }
-        }
-        
-        return attrStr
-    }
-    
     
     func strToAttrStringNavView(str: String) -> AttributedString {
-        // trim to 3 lines and 88 chars
+        // trim to 3 lines and 120 chars
         var newStr: String = str
         
-        // trim to 88th char
-        if (str.count > 120) {
+        if (str.count > 120) {     // trim to 120th char
             newStr = String(str.prefix(120)) + "..."
         }
         
