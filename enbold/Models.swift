@@ -16,14 +16,6 @@ class ModelData: ObservableObject {
             UserDefaults.standard.set(notes, forKey: "notes")
         }
     }
-    @Published var nlpOptions: [String: Bool] = UserDefaults.standard.array(forKey: "nlpoptions") as? [String: Bool] ?? ["Interjection": true,
-                           "Conjunction": true,
-                           "Determiner": true,
-                           "Preposition": true] {
-        didSet {
-            UserDefaults.standard.set(nlpOptions, forKey: "nlpoptions")
-        }
-    }
     
     let notesBeginnings = ["First note",
                            "Second note",
@@ -52,8 +44,19 @@ class ModelData: ObservableObject {
 
 
 
-class AttributedStringMaker {
-    @State var nlpOptions: [String: Bool] = ["": false]
+class AttributedStringMaker: ObservableObject {
+    // Interjection, Conjunction, Determiner, Preposition, Noun, Verb, Adjective, Adverb, Pronoun, Particle, Preposition, Conjunction
+    
+    // have to stop here, look into this:
+    // https://stackoverflow.com/questions/56475342/whats-the-best-practice-to-save-and-load-array-of-struct
+    // https://stackoverflow.com/questions/44876420/save-struct-to-userdefaults
+    // https://gist.github.com/enomoto/629a85bd4e82902057c0b614602a71b3
+    // save as [String: Bool] and access as nlpOptions[index][0]
+    @Published var nlpOptions: [NLPOption] = UserDefaults.standard.array(forKey: "nlpoptions") as? [NLPOption] ?? [NLPOption(lex: "Interjection", on: true), NLPOption(lex: "Conjunction", on: true), NLPOption(lex: "Determiner", on: true), NLPOption(lex: "Preposition", on: true), NLPOption(lex: "Noun", on: false), NLPOption(lex: "Verb", on: false), NLPOption(lex: "Adjective", on: false), NLPOption(lex: "Adverb", on: false), NLPOption(lex: "Pronoun", on: false), NLPOption(lex: "Particle", on: false), NLPOption(lex: "Preposition", on: false), NLPOption(lex: "Conjunction", on: false)] {
+        didSet {
+            UserDefaults.standard.set(try? JSONEncoder().encode(nlpOptions), forKey: "nlpoptions")
+        }
+    }
     
     // making light vs dark textcolour adjustments
     let currentSystemScheme = UITraitCollection.current.userInterfaceStyle  // i could put this here or in the strtoattrstr but the navview needs to be told to refresh on change so idk
@@ -63,6 +66,7 @@ class AttributedStringMaker {
     
     let fontSizeMain = 15.0
     let fontSizeTextView = 20.0
+    let fontSizeNLPOption = 16.0
     
     // regex is leading and trailing whitespace, period, comma, !, ?, beginning and end of line
     // and the word from dict in the middle
@@ -86,11 +90,10 @@ class AttributedStringMaker {
         tagger.string = str.replacingOccurrences(of: "’", with: "'")
         tagger.enumerateTags(in: str.startIndex..<str.endIndex, unit: .word, scheme: .lexicalClass) { tag, tokenRange in
             if let tag = tag {
-                if (tag.rawValue == "Interjection" ||
-                    tag.rawValue == "Conjunction" ||
-                    tag.rawValue == "Determiner" ||
-                    tag.rawValue == "Preposition") {
-                    attrStr.addAttributes([.font: UIFont(name: fontLight, size: size)], range: NSRange(tokenRange, in: str))
+                for option in nlpOptions {
+                    if (tag.rawValue == option.lex && option.on) {
+                        attrStr.addAttributes([.font: UIFont(name: fontLight, size: size)], range: NSRange(tokenRange, in: str))
+                    }
                 }
             }
             return true
@@ -126,6 +129,11 @@ class AttributedStringMaker {
     }
     
     
+    func strToAttrStringNLPOption(str: String) -> AttributedString {
+        return AttributedString(strToAttrStrNLP(str: str, size: fontSizeNLPOption))
+    }
+    
+    
     // didn't use this function, keeping it just in case
     // seems like apple won't allow a different font for navtitle
     func getNavTitle() -> AttributedString {
@@ -139,3 +147,10 @@ class AttributedStringMaker {
     }
 }
 
+
+struct NLPOption: Codable {
+    var id = UUID()
+    
+    var lex: String
+    var on: Bool
+}

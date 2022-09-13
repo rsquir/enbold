@@ -10,11 +10,11 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var modelData = ModelData()
-    @State var attrStringMaker = AttributedStringMaker()    // wrote the nlpOptions to onappear to allow init
+    @ObservedObject var attrStringMaker = AttributedStringMaker()
     
     // i guess ill use a popover view for the nlpOptions? hmm
     @State var showingNLPOptions = false
-    
+
     var body: some View {
         NavigationView {
             List {
@@ -24,21 +24,20 @@ struct ContentView: View {
                     }
                 }
             }
+            // button for popover view for NLPOptions
             .navigationBarItems(leading: Button(action: {
                 showingNLPOptions.toggle()
             }) {
                 Image(systemName: "text.justify")
+            // button for adding notes
             }, trailing: Button(action: {
                 modelData.addNote()
             }) {
                 Image(systemName: "plus")
             })
         }
-        .onAppear(perform: {
-            attrStringMaker.nlpOptions = modelData.nlpOptions   // write here to allow init
-        })
-        .sheet(isPresented: $showingNLPOptions) {
-            NLPOptionsView()
+        .popover(isPresented: $showingNLPOptions) {
+            NLPOptionsView(attrStringMaker: attrStringMaker)
         }
     }
 }
@@ -142,12 +141,34 @@ extension Array: RawRepresentable where Element: Codable {
 
 
 struct NLPOptionsView: View {
-    //@Binding nlpOtions: [String: Bool]
+    @ObservedObject var attrStringMaker: AttributedStringMaker
     
     var body: some View {
         List {
-            Text("one")
-            Text("two")
+            ForEach(0..<attrStringMaker.nlpOptions.count, id: \.self) { index in
+                NLPOptionRow(attrStringMaker: attrStringMaker, lex: attrStringMaker.nlpOptions[index].lex, isOn: $attrStringMaker.nlpOptions[index].on)
+            }
+        }
+    }
+}
+
+
+struct NLPOptionRow: View {
+    @State var attrStringMaker: AttributedStringMaker
+    @State var lex: String
+    @Binding var isOn: Bool
+    
+    var body: some View {
+        Group {
+            HStack {
+                Text(attrStringMaker.strToAttrStringNLPOption(str: lex))
+                if isOn {
+                    Image(systemName: "checkmark")
+                }
+            }
+        }
+        .onTapGesture {
+            isOn.toggle()
         }
     }
 }

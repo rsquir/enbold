@@ -112,3 +112,14 @@ Also unbold word list + old function using regex and whatnot
         
         return attrStr
     }
+    
+
+
+old NLTagger code
+
+    if (tag.rawValue == "Interjection" ||
+        tag.rawValue == "Conjunction" ||
+        tag.rawValue == "Determiner" ||
+        tag.rawValue == "Preposition") {
+        attrStr.addAttributes([.font: UIFont(name: fontLight, size: size)], range: NSRange(tokenRange, in: str))
+    }
