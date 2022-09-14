@@ -51,10 +51,11 @@ class AttributedStringMaker: ObservableObject {
     // https://stackoverflow.com/questions/56475342/whats-the-best-practice-to-save-and-load-array-of-struct
     // https://stackoverflow.com/questions/44876420/save-struct-to-userdefaults
     // https://gist.github.com/enomoto/629a85bd4e82902057c0b614602a71b3
-    // save as [String: Bool] and access as nlpOptions[index][0]
-    @Published var nlpOptions: [NLPOption] = UserDefaults.standard.array(forKey: "nlpoptions") as? [NLPOption] ?? [NLPOption(lex: "Interjection", on: true), NLPOption(lex: "Conjunction", on: true), NLPOption(lex: "Determiner", on: true), NLPOption(lex: "Preposition", on: true), NLPOption(lex: "Noun", on: false), NLPOption(lex: "Verb", on: false), NLPOption(lex: "Adjective", on: false), NLPOption(lex: "Adverb", on: false), NLPOption(lex: "Pronoun", on: false), NLPOption(lex: "Particle", on: false), NLPOption(lex: "Preposition", on: false), NLPOption(lex: "Conjunction", on: false)] {
+    // save as [String: Bool] and access as nlpOptions[index][0] -- attempted this and you need a KeyPath which you can't get from AnyObject
+    //@Published var nlpOptions: [NLPOption] = UserDefaults.standard.array(forKey: "nlpoptions") as? [NLPOption] ?? [NLPOption(lex: "Interjection", on: true), NLPOption(lex: "Conjunction", on: true), NLPOption(lex: "Determiner", on: true), NLPOption(lex: "Preposition", on: true), NLPOption(lex: "Noun", on: false), NLPOption(lex: "Verb", on: false), NLPOption(lex: "Adjective", on: false), NLPOption(lex: "Adverb", on: false), NLPOption(lex: "Pronoun", on: false), NLPOption(lex: "Particle", on: false), NLPOption(lex: "Preposition", on: false), NLPOption(lex: "Conjunction", on: false)] {
+    @Published var nlpOptions = [NLPOption]() {
         didSet {
-            UserDefaults.standard.set(try? JSONEncoder().encode(nlpOptions), forKey: "nlpoptions")
+            save()
         }
     }
     
@@ -74,6 +75,12 @@ class AttributedStringMaker: ObservableObject {
     let regexRightBoundary = "\\b(\\s|\\.|\\,|\\!|\\?|$)*"
     
     var tagger: NLTagger = NLTagger(tagSchemes: [.lexicalClass])    // this is used for nlp
+    
+    
+    init() {
+        load()
+    }
+    
     
     func strToAttrStrNLP(str: String, size: Double) -> NSMutableAttributedString {
         let attrStr = NSMutableAttributedString(string: str)
@@ -145,6 +152,22 @@ class AttributedStringMaker: ObservableObject {
         
         return AttributedString(attrStr)
     }
+    
+    
+    func save() {
+        let data = nlpOptions.map { try? JSONEncoder().encode($0) }
+        UserDefaults.standard.set(data, forKey: "nlpoptions")
+    }
+
+    func load() {
+        guard let encodedData = UserDefaults.standard.array(forKey: "nlpoptions") as? [Data] else {
+            nlpOptions = [NLPOption(lex: "Interjection", on: true), NLPOption(lex: "Conjunction", on: true), NLPOption(lex: "Determiner", on: true), NLPOption(lex: "Preposition", on: true), NLPOption(lex: "Noun", on: false), NLPOption(lex: "Verb", on: false), NLPOption(lex: "Adjective", on: false), NLPOption(lex: "Adverb", on: false), NLPOption(lex: "Pronoun", on: false), NLPOption(lex: "Particle", on: false), NLPOption(lex: "Preposition", on: false), NLPOption(lex: "Conjunction", on: false)]
+            return
+        }
+
+        nlpOptions = encodedData.map { try! JSONDecoder().decode(NLPOption.self, from: $0) }
+    }
+
 }
 
 
