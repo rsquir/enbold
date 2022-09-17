@@ -162,6 +162,7 @@ struct NLPOptionRow: View {
         Group {
             HStack {
                 Text(attrStringMaker.strToAttrStringNLPOption(str: lex))
+                Spacer()
                 if isOn {
                     Image(systemName: "checkmark")
                 }

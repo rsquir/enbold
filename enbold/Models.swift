@@ -47,12 +47,6 @@ class ModelData: ObservableObject {
 class AttributedStringMaker: ObservableObject {
     // Interjection, Conjunction, Determiner, Preposition, Noun, Verb, Adjective, Adverb, Pronoun, Particle, Preposition, Conjunction
     
-    // have to stop here, look into this:
-    // https://stackoverflow.com/questions/56475342/whats-the-best-practice-to-save-and-load-array-of-struct
-    // https://stackoverflow.com/questions/44876420/save-struct-to-userdefaults
-    // https://gist.github.com/enomoto/629a85bd4e82902057c0b614602a71b3
-    // save as [String: Bool] and access as nlpOptions[index][0] -- attempted this and you need a KeyPath which you can't get from AnyObject
-    //@Published var nlpOptions: [NLPOption] = UserDefaults.standard.array(forKey: "nlpoptions") as? [NLPOption] ?? [NLPOption(lex: "Interjection", on: true), NLPOption(lex: "Conjunction", on: true), NLPOption(lex: "Determiner", on: true), NLPOption(lex: "Preposition", on: true), NLPOption(lex: "Noun", on: false), NLPOption(lex: "Verb", on: false), NLPOption(lex: "Adjective", on: false), NLPOption(lex: "Adverb", on: false), NLPOption(lex: "Pronoun", on: false), NLPOption(lex: "Particle", on: false), NLPOption(lex: "Preposition", on: false), NLPOption(lex: "Conjunction", on: false)] {
     @Published var nlpOptions = [NLPOption]() {
         didSet {
             save()
@@ -132,7 +126,7 @@ class AttributedStringMaker: ObservableObject {
         }
          
         //return AttributedString(strToAttrStrTextView(str: newStr, size: fontSizeMain))
-        return AttributedString(strToAttrStrNLP(str: newStr, size: fontSizeMain))
+        return AttributedString(strToAttrStrNLP(str: newStr.trimmingCharacters(in: .whitespacesAndNewlines), size: fontSizeMain))
     }
     
     
@@ -154,6 +148,8 @@ class AttributedStringMaker: ObservableObject {
     }
     
     
+    // got solution to saving structs in array from this link:
+    // https://gist.github.com/enomoto/629a85bd4e82902057c0b614602a71b3
     func save() {
         let data = nlpOptions.map { try? JSONEncoder().encode($0) }
         UserDefaults.standard.set(data, forKey: "nlpoptions")
