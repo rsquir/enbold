@@ -11,7 +11,7 @@ import SwiftUI
 import NaturalLanguage
 
 class ModelData: ObservableObject {
-    @Published var notes: [String] = UserDefaults.standard.array(forKey: "notes") as? [String] ?? ["First note", "Second note", "Third note"] {
+    @Published var notes: [String] = UserDefaults.standard.array(forKey: "notes") as? [String] ?? ["This is the first note. This app allows you to focus on the important words by highlighting them.", "Second note", "Third note"] {
         didSet {
             UserDefaults.standard.set(notes, forKey: "notes")
         }
@@ -54,6 +54,7 @@ class AttributedStringMaker: ObservableObject {
     }
     
     // making light vs dark textcolour adjustments
+    @Environment(\.colorScheme) var colorScheme
     let currentSystemScheme = UITraitCollection.current.userInterfaceStyle  // i could put this here or in the strtoattrstr but the navview needs to be told to refresh on change so idk
     
     let fontLight = "RobotoFlexNormalNormalNormalNormalNormalNormalNormalNormalNormalDefault-Light"
@@ -62,11 +63,6 @@ class AttributedStringMaker: ObservableObject {
     let fontSizeMain = 15.0
     let fontSizeTextView = 20.0
     let fontSizeNLPOption = 16.0
-    
-    // regex is leading and trailing whitespace, period, comma, !, ?, beginning and end of line
-    // and the word from dict in the middle
-    let regexLeftBoundary =   "(^|\\s|\\.|\\,|\\!|\\?)*(?i)\\b"
-    let regexRightBoundary = "\\b(\\s|\\.|\\,|\\!|\\?|$)*"
     
     var tagger: NLTagger = NLTagger(tagSchemes: [.lexicalClass])    // this is used for nlp
     
@@ -86,6 +82,11 @@ class AttributedStringMaker: ObservableObject {
             attrStr.addAttributes([.foregroundColor: UIColor.black], range: NSMakeRange(0, str.count))
         } else if (currentSystemScheme == .dark) {
             attrStr.addAttributes([.foregroundColor: UIColor.white], range: NSMakeRange(0, str.count))
+        }
+        
+        
+        if (colorScheme == .dark) {
+            // thia doesn't work
         }
         
         tagger.string = str.replacingOccurrences(of: "’", with: "'")
@@ -124,7 +125,8 @@ class AttributedStringMaker: ObservableObject {
         } catch let error {
             print("invalid regex: \(error.localizedDescription)")
         }
-         
+        
+        
         //return AttributedString(strToAttrStrTextView(str: newStr, size: fontSizeMain))
         return AttributedString(strToAttrStrNLP(str: newStr.trimmingCharacters(in: .whitespacesAndNewlines), size: fontSizeMain))
     }
@@ -144,6 +146,7 @@ class AttributedStringMaker: ObservableObject {
         attrStr.addAttributes([.font: UIFont(name: fontLight, size: 20.0)], range: NSMakeRange(0, 2))
         attrStr.addAttributes([.font: UIFont(name: fontBold, size: 10.0)], range: NSMakeRange(2, 4))
         
+        
         return AttributedString(attrStr)
     }
     
@@ -157,10 +160,23 @@ class AttributedStringMaker: ObservableObject {
 
     func load() {
         guard let encodedData = UserDefaults.standard.array(forKey: "nlpoptions") as? [Data] else {
-            nlpOptions = [NLPOption(lex: "Interjection", on: true), NLPOption(lex: "Conjunction", on: true), NLPOption(lex: "Determiner", on: true), NLPOption(lex: "Preposition", on: true), NLPOption(lex: "Noun", on: false), NLPOption(lex: "Verb", on: false), NLPOption(lex: "Adjective", on: false), NLPOption(lex: "Adverb", on: false), NLPOption(lex: "Pronoun", on: false), NLPOption(lex: "Particle", on: false), NLPOption(lex: "Preposition", on: false), NLPOption(lex: "Conjunction", on: false)]
+            nlpOptions =
+            [NLPOption(lex: "Interjection", on: true),
+             NLPOption(lex: "Conjunction", on: true),
+             NLPOption(lex: "Determiner", on: true),
+             NLPOption(lex: "Preposition", on: true),
+             NLPOption(lex: "Pronoun", on: true),
+             NLPOption(lex: "Noun", on: false),
+             NLPOption(lex: "Verb", on: false),
+             NLPOption(lex: "Adjective", on: false),
+             NLPOption(lex: "Adverb", on: false),
+             NLPOption(lex: "Particle", on: false),
+             NLPOption(lex: "Preposition", on: false),
+             NLPOption(lex: "Conjunction", on: false)]
             return
         }
 
+        
         nlpOptions = encodedData.map { try! JSONDecoder().decode(NLPOption.self, from: $0) }
     }
 
