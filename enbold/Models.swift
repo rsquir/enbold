@@ -170,8 +170,7 @@ class AttributedStringMaker: ObservableObject {
              NLPOption(lex: "Verb", on: false),
              NLPOption(lex: "Adjective", on: false),
              NLPOption(lex: "Adverb", on: false),
-             NLPOption(lex: "Particle", on: false),
-             NLPOption(lex: "Preposition", on: false)]
+             NLPOption(lex: "Particle", on: false)]
             return
         }
 
