@@ -15,6 +15,7 @@ struct ContentView: View {
     // i guess ill use a popover view for the nlpOptions? hmm
     @State var showingNLPOptions = false
 
+    
     var body: some View {
         NavigationView {
             List {
@@ -25,12 +26,15 @@ struct ContentView: View {
                 }
             }
             // button for popover view for NLPOptions
+            /* removed b/c user doesn't need access to changing nlp
             .navigationBarItems(leading: Button(action: {
                 showingNLPOptions.toggle()
             }) {
                 Image(systemName: "text.justify")
             // button for adding notes
-            }, trailing: Button(action: {
+            }
+             */
+            .navigationBarItems(trailing: Button(action: {
                 modelData.addNote()
             }) {
                 Image(systemName: "plus")
@@ -128,6 +132,7 @@ extension Array: RawRepresentable where Element: Codable {
         }
         self = result
     }
+    
 
     public var rawValue: String {
         guard let data = try? JSONEncoder().encode(self),
@@ -143,6 +148,7 @@ extension Array: RawRepresentable where Element: Codable {
 struct NLPOptionsView: View {
     @ObservedObject var attrStringMaker: AttributedStringMaker
     
+    
     var body: some View {
         List {
             ForEach(0..<attrStringMaker.nlpOptions.count, id: \.self) { index in
@@ -157,6 +163,7 @@ struct NLPOptionRow: View {
     @State var attrStringMaker: AttributedStringMaker
     @State var lex: String
     @Binding var isOn: Bool
+    
     
     var body: some View {
         Group {

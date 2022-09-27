@@ -88,6 +88,8 @@ class AttributedStringMaker: ObservableObject {
         if (colorScheme == .dark) {
             // thia doesn't work
         }
+        //print(colorScheme)
+        
         
         tagger.string = str.replacingOccurrences(of: "’", with: "'")
         tagger.enumerateTags(in: str.startIndex..<str.endIndex, unit: .word, scheme: .lexicalClass) { tag, tokenRange in
