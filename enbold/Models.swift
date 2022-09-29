@@ -54,7 +54,6 @@ class AttributedStringMaker: ObservableObject {
     }
     
     // making light vs dark textcolour adjustments
-    @Environment(\.colorScheme) var colorScheme
     let currentSystemScheme = UITraitCollection.current.userInterfaceStyle  // i could put this here or in the strtoattrstr but the navview needs to be told to refresh on change so idk
     
     let fontLight = "RobotoFlexNormalNormalNormalNormalNormalNormalNormalNormalNormalDefault-Light"
@@ -84,13 +83,6 @@ class AttributedStringMaker: ObservableObject {
             attrStr.addAttributes([.foregroundColor: UIColor.white], range: NSMakeRange(0, str.count))
         }
         
-        
-        if (colorScheme == .dark) {
-            // thia doesn't work
-        }
-        //print(colorScheme)
-        
-        
         tagger.string = str.replacingOccurrences(of: "’", with: "'")
         tagger.enumerateTags(in: str.startIndex..<str.endIndex, unit: .word, scheme: .lexicalClass) { tag, tokenRange in
             if let tag = tag {
@@ -103,6 +95,15 @@ class AttributedStringMaker: ObservableObject {
             return true
         }
         
+        // regex special chars light
+        do {
+            let regex = try NSRegularExpression(pattern: "(!|\\?|#|\\$|\\(|\\)|\\.|,|:)")
+            for s in regex.matches(in: str, range: NSMakeRange(0, str.count)) {
+                attrStr.addAttributes([.font: UIFont(name: fontLight, size: size)], range: s.range)
+            }
+        } catch let error {
+            print("invalid regex: \(error.localizedDescription)")
+        }
         
         return attrStr
     }
